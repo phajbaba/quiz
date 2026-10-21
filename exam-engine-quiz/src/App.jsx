@@ -26,23 +26,21 @@ const AppContext = createContext();
 const AppProvider = ({ children }) => {
   const [questions, setQuestions] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [examState, setExamState] = useState('not_started'); // not_started, active, finished
+  const [examState, setExamState] = useState('not_started');
   const [currentIdx, setCurrentIdx] = useState(0);
   const [answers, setAnswers] = useState({});
   const [timeLeft, setTimeLeft] = useState(0);
   const [warnings, setWarnings] = useState(0);
 
-  // DYNAMIC EXAM GENERATOR
   const configureAndStartExam = async (config) => {
     setIsLoading(true);
-    setTimeLeft(config.time * 60); // Convert minutes to seconds
+    setTimeLeft(config.time * 60);
     setWarnings(0);
     setAnswers({});
     setCurrentIdx(0);
 
     if (config.category === 'cs') {
       try {
-        // This fetch real CS questions from the API based on user's quantity amount
         const response = await fetch(`https://opentdb.com/api.php?amount=${config.amount}&category=18&type=multiple`);
         const data = await response.json();
         
